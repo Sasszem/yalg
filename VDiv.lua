@@ -26,19 +26,17 @@ function VDiv:new(...)
 end
 
 function VDiv:setParent(parent)
-    -- copy the styles into self styles
-    for k, v in pairs(parent.style) do
-        self.style[k] = self.style[k] or v
-    end
-
-    -- copy base style into self
-    for k, v in pairs(self.baseStyle) do
-        self.style[k] = self.style[k] or v
-    end
-
+    self.parent = parent
     -- set parent for every child node
     for _, W in ipairs(self.items) do
         W:setParent(self)
+    end
+end
+
+function VDiv:calculateStyle()
+    self.cStyle = mergeTables(self.style, self.parent.style, self.baseStyle)
+    for _, W in ipairs(self.items) do
+        W:calculateStyle()
     end
 end
 
@@ -51,7 +49,6 @@ function VDiv:draw(x, y, w, h)
     end
 end
 
-VDiv.__call = VDiv.new
-setmetatable(VDiv, VDiv)
+setmetatable(VDiv, {__call = VDiv.new})
 
 return VDiv

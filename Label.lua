@@ -15,35 +15,32 @@ function Label:new(text, style)
 end
 
 function Label:setParent(parent)
-    -- copy the styles into self styles
-    for k, v in pairs(parent.style) do
-        self.style[k] = self.style[k] or v
-    end
+    self.parent = parent
+end
 
-    -- copy base style into self
-    for k, v in pairs(self.baseStyle) do
-        self.style[k] = self.style[k] or v
-    end
+
+function Label:calculateStyle()
+    self.cStyle = mergeTables(self.style, self.parent.cStyle, self.baseStyle)
 end
 
 
 function Label:getMinimumDimensions()
-    self.w = self.style.font:getWidth(self.text)
-    self.h = self.style.font:getHeight()
+    self.w = self.cStyle.font:getWidth(self.text)
+    self.h = self.cStyle.font:getHeight()
     return self.w, self.h
 end
+
 
 function Label:draw(x, y, w, h)
     local wL, hL = self:getMinimumDimensions()
     local x = x + (w - wL)/2
     local y = y + (h - hL)/2
-    love.graphics.setColor(self.style.textColor)
-    love.graphics.setFont(self.style.font)
+    love.graphics.setColor(self.cStyle.textColor)
+    love.graphics.setFont(self.cStyle.font)
     love.graphics.print(self.text, x, y)
 end
 
-Label.__call = Label.new
 Label.__index = Label
-setmetatable(Label, Label)
+setmetatable(Label, {__call = Label.new})
 
 return Label

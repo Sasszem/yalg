@@ -20,31 +20,27 @@ function Button:new(text, style)
     return o
 end
 
-function Button:setParent(parent)
-    -- copy the styles into self styles
-    for k, v in pairs(parent.style) do
-        self.style[k] = self.style[k] or v
-    end
+function Button:calculateStyle()
+    self.cStyle = mergeTables(self.style, self.parent.style, self.baseStyle)
+end
 
-    -- copy base style into self
-    for k, v in pairs(self.baseStyle) do
-        self.style[k] = self.style[k] or v
-    end
+function Button:setParent(parent)
+    self.parent = parent
 end
 
 function Button:getDimensions()
     local w, h = self:getRawDimensions()
-    local d = 2*self.style.border + 2*self.style.margin
+    local d = 2*self.cStyle.border + 2*self.cStyle.margin
     return w+d, h+d
 end
 
 function Button:getRawDimensions()
-    return self.style.font:getWidth(self.text), self.style.font:getHeight()
+    return self.cStyle.font:getWidth(self.text), self.cStyle.font:getHeight()
 end
 
 
 function Button:draw(x, y, w, h)
-    if self.style.placement=="center" then
+    if self.cStyle.placement=="center" then
         local wB, hB = self:getDimensions()
         x = x + (w-wB)/2
         y = y + (h-hB)/2
@@ -53,17 +49,17 @@ function Button:draw(x, y, w, h)
     end
 
     -- draw background
-    love.graphics.setColor(self.style.borderColor)
+    love.graphics.setColor(self.cStyle.borderColor)
     love.graphics.rectangle("fill", x, y, w, h)
-    love.graphics.setColor(self.style.backgroundColor)
-    love.graphics.rectangle("fill", x+self.style.border, y+self.style.border, w-2*self.style.border, h-2*self.style.border)
-    love.graphics.setColor(self.style.textColor)
+    love.graphics.setColor(self.cStyle.backgroundColor)
+    love.graphics.rectangle("fill", x+self.cStyle.border, y+self.cStyle.border, w-2*self.cStyle.border, h-2*self.cStyle.border)
+    love.graphics.setColor(self.cStyle.textColor)
 
     -- center horizontally & vertically
     local wB, hB = self:getRawDimensions()
     local xt = x+(w-wB)/2
     local yt = y+(h-hB)/2
-    love.graphics.setFont(self.style.font)
+    love.graphics.setFont(self.cStyle.font)
     love.graphics.print(self.text, xt, yt)
 end
 
