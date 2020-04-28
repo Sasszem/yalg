@@ -14,6 +14,7 @@ function HDiv:new(...)
     setmetatable(o, HDiv)
     o.items = {}
     o.style = {}
+    setmetatable(o.style, {__index = o.baseStyle})
     local i = 1
     for _, W in ipairs(args) do
         if W.type then
@@ -23,7 +24,7 @@ function HDiv:new(...)
             o.style = W
         end
     end
-
+    o.id = o.style.id or getId(o.type)
     return o
 end
 
@@ -35,12 +36,6 @@ function HDiv:setParent(parent)
     end
 end
 
-function HDiv:calculateStyle()
-    self.cStyle = mergeTables(self.style, self.parent.style, self.baseStyle)
-    for _, W in ipairs(self.items) do
-        W:calculateStyle()
-    end
-end
 
 function HDiv:getMinDimensions()
     local maxW = 0
@@ -53,9 +48,12 @@ function HDiv:getMinDimensions()
     return maxW * #self.items, maxH
 end
 
+function HDiv:addWidgetLookup(key, widget)
+    self.parent:addWidgetLookup(key, widget)
+end
 
 function HDiv:calculateGeometry(x, y, w, h)
-    if self.cStyle.placement=="center" then
+    if self.style.placement=="center" then
         local wS, hS = self:getMinDimensions()
         self.x = x + (w-wS)/2
         self.y = y + (h-hS)/2
@@ -74,6 +72,10 @@ function HDiv:calculateGeometry(x, y, w, h)
     end
 end
 
+function HDiv:getFont()
+    -- fonts are sprecial, and inherit from parent widgets to childer
+    return self.style.font or self.parent:getFont()
+end
 
 function HDiv:draw()
     -- divide horisontally & issue drawing

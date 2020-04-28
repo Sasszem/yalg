@@ -2,7 +2,6 @@ require("utils")
 
 local Button = {
     type="Button",
-    placement = "fill",
 }
 
 Button.baseStyle = {
@@ -11,6 +10,7 @@ Button.baseStyle = {
     backgroundColor=rgb(100, 100, 100),
     textColor=rgb(255, 255, 255),
     margin=5,
+    placement = "fill",
 }
 
 function Button:new(text, style)
@@ -18,58 +18,63 @@ function Button:new(text, style)
     setmetatable(o, Button)
     o.text = text
     o.style = style or {}
+    setmetatable(o.style, {__index = o.baseStyle})
+    o.id = o.style.id or getId(o.type)
     return o
 end
 
-function Button:calculateStyle()
-    self.cStyle = mergeTables(self.style, self.parent.style, self.baseStyle)
-end
 
 function Button:setParent(parent)
     self.parent = parent
+    self.parent:addWidgetLookup(self.id, self)
 end
 
 function Button:getMinDimensions()
     local w, h = self:getRawDimensions()
-    local d = 2*self.cStyle.border + 2*self.cStyle.margin
+    local d = 2*self.style.border + 2*self.style.margin
     return w+d, h+d
 end
 
 function Button:calculateGeometry(x, y, w, h)
-    if self.cStyle.placement=="center" then
+    if self.style.placement=="center" then
         local wS, hS = self:getMinDimensions()
-        wS = wS - 2*self.cStyle.margin
-        hS = hS - 2*self.cStyle.margin
+        wS = wS - 2*self.style.margin
+        hS = hS - 2*self.style.margin
         self.x = x + (w-wS)/2
         self.y = y + (h-hS)/2
         self.w = wS
         self.h = hS
     else
-        self.x = x + self.cStyle.margin
-        self.y = y + self.cStyle.margin
-        self.w = w - 2*self.cStyle.margin
-        self.h = h - 2*self.cStyle.margin
+        self.x = x + self.style.margin
+        self.y = y + self.style.margin
+        self.w = w - 2*self.style.margin
+        self.h = h - 2*self.style.margin
     end
 end
 
 function Button:getRawDimensions()
-    return self.cStyle.font:getWidth(self.text), self.cStyle.font:getHeight()
+    local font = self:getFont()
+    return font:getWidth(self.text), font:getHeight()
 end
 
+function Button:getFont()
+    -- fonts are sprecial, and inherit from parent widgets to childer
+    return self.style.font or self.parent:getFont()
+end
 
 function Button:draw()
     -- draw background
-    love.graphics.setColor(self.cStyle.borderColor)
+    love.graphics.setColor(self.style.borderColor)
     love.graphics.rectangle("fill", self.x, self.y, self.w, self.h)
-    love.graphics.setColor(self.cStyle.backgroundColor)
-    love.graphics.rectangle("fill", self.x+self.cStyle.border, self.y+self.cStyle.border, self.w-2*self.cStyle.border, self.h-2*self.cStyle.border)
-    love.graphics.setColor(self.cStyle.textColor)
+    love.graphics.setColor(self.style.backgroundColor)
+    love.graphics.rectangle("fill", self.x+self.style.border, self.y+self.style.border, self.w-2*self.style.border, self.h-2*self.style.border)
+    love.graphics.setColor(self.style.textColor)
 
     -- center horizontally & vertically
     local wB, hB = self:getRawDimensions()
     local xt = self.x+(self.w-wB)/2
     local yt = self.y+(self.h-hB)/2
-    love.graphics.setFont(self.cStyle.font)
+    love.graphics.setFont(self:getFont())
     love.graphics.print(self.text, xt, yt)
 end
 

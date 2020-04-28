@@ -16,3 +16,9 @@ function mergeTables(...)
     end
     return result
 end
+
+local ids = {}
+function getId(type)
+    ids[type] = (ids[type] or 0) + 1
+    return type.."#"..tostring(ids[type])
+end
