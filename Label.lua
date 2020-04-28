@@ -4,6 +4,8 @@ local Label = {
 
 Label.baseStyle = {
     textColor = rgb(255, 255, 255),
+    backgroundColor = rgb(0,0,0,0),
+    placement = "fill",
 }
 
 function Label:new(text, style)
@@ -24,17 +26,35 @@ function Label:calculateStyle()
 end
 
 
-function Label:getMinimumDimensions()
-    self.w = self.cStyle.font:getWidth(self.text)
-    self.h = self.cStyle.font:getHeight()
-    return self.w, self.h
+function Label:getMinDimensions()
+    local w = self.cStyle.font:getWidth(self.text)
+    local h = self.cStyle.font:getHeight()
+    return w, h
 end
 
 
-function Label:draw(x, y, w, h)
-    local wL, hL = self:getMinimumDimensions()
-    local x = x + (w - wL)/2
-    local y = y + (h - hL)/2
+function Label:calculateGeometry(x, y, w, h)
+    if self.cStyle.placement=="center" then
+        local wS, hS = self:getMinDimensions()
+        self.x = x + (w-wS)/2
+        self.y = y + (h-hS)/2
+        self.w = wS
+        self.h = hS
+    else
+        self.x = x
+        self.y = y
+        self.w = w
+        self.h = h
+    end
+end
+
+
+function Label:draw()
+    local wL, hL = self:getMinDimensions()
+    love.graphics.setColor(self.cStyle.backgroundColor)
+    love.graphics.rectangle("fill", self.x, self.y, self.w, self.h)
+    local x = self.x + (self.w - wL)/2
+    local y = self.y + (self.h - hL)/2
     love.graphics.setColor(self.cStyle.textColor)
     love.graphics.setFont(self.cStyle.font)
     love.graphics.print(self.text, x, y)

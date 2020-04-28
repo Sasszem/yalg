@@ -17,12 +17,19 @@ function GUI:new(...)
     o.d = VDiv(unpack(args))
     o.d:setParent(o)
     o.d:calculateStyle()
+    o.d:calculateGeometry(0, 0, o.w, o.h)
     setmetatable(o, GUI)
     return o
 end
 
 function GUI:draw()
-    self.d:draw(0, 0, self.w, self.h)
+    self.d:draw()
+end
+
+function GUI:resize(w, h)
+    self.w = w
+    self.h = h
+    self.d:calculateGeometry(0, 0, w, h)
 end
 
 setmetatable(GUI, {__call = GUI.new})

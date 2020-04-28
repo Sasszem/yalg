@@ -2,6 +2,7 @@ require("utils")
 
 local Button = {
     type="Button",
+    placement = "fill",
 }
 
 Button.baseStyle = {
@@ -28,10 +29,27 @@ function Button:setParent(parent)
     self.parent = parent
 end
 
-function Button:getDimensions()
+function Button:getMinDimensions()
     local w, h = self:getRawDimensions()
     local d = 2*self.cStyle.border + 2*self.cStyle.margin
     return w+d, h+d
+end
+
+function Button:calculateGeometry(x, y, w, h)
+    if self.cStyle.placement=="center" then
+        local wS, hS = self:getMinDimensions()
+        wS = wS - 2*self.cStyle.margin
+        hS = hS - 2*self.cStyle.margin
+        self.x = x + (w-wS)/2
+        self.y = y + (h-hS)/2
+        self.w = wS
+        self.h = hS
+    else
+        self.x = x + self.cStyle.margin
+        self.y = y + self.cStyle.margin
+        self.w = w - 2*self.cStyle.margin
+        self.h = h - 2*self.cStyle.margin
+    end
 end
 
 function Button:getRawDimensions()
@@ -39,32 +57,23 @@ function Button:getRawDimensions()
 end
 
 
-function Button:draw(x, y, w, h)
-    if self.cStyle.placement=="center" then
-        local wB, hB = self:getDimensions()
-        x = x + (w-wB)/2
-        y = y + (h-hB)/2
-        w = wB
-        h = hB
-    end
-
+function Button:draw()
     -- draw background
     love.graphics.setColor(self.cStyle.borderColor)
-    love.graphics.rectangle("fill", x, y, w, h)
+    love.graphics.rectangle("fill", self.x, self.y, self.w, self.h)
     love.graphics.setColor(self.cStyle.backgroundColor)
-    love.graphics.rectangle("fill", x+self.cStyle.border, y+self.cStyle.border, w-2*self.cStyle.border, h-2*self.cStyle.border)
+    love.graphics.rectangle("fill", self.x+self.cStyle.border, self.y+self.cStyle.border, self.w-2*self.cStyle.border, self.h-2*self.cStyle.border)
     love.graphics.setColor(self.cStyle.textColor)
 
     -- center horizontally & vertically
     local wB, hB = self:getRawDimensions()
-    local xt = x+(w-wB)/2
-    local yt = y+(h-hB)/2
+    local xt = self.x+(self.w-wB)/2
+    local yt = self.y+(self.h-hB)/2
     love.graphics.setFont(self.cStyle.font)
     love.graphics.print(self.text, xt, yt)
 end
 
-Button.__call = Button.new
 Button.__index = Button
-setmetatable(Button, Button)
+setmetatable(Button, {__call = Button.new})
 
 return Button
