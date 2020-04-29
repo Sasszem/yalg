@@ -1,4 +1,4 @@
-require("gui")
+require("yalg")
 
 local g = {}
 
