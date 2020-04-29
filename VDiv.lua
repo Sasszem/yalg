@@ -7,6 +7,7 @@ VDiv.type="VDiv"
 VDiv.baseStyle = {
     placement = "fill",
 }
+setmetatable(VDiv.baseStyle, {__index=ContainerBase.baseStyle})
 
 function VDiv:getMinDimensions()
     local maxW = 0

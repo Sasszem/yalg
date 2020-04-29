@@ -1,7 +1,8 @@
 local WidgetBase = require("WidgetBase")
 
 local ContainerBase = WidgetBase:extend()
-
+ContainerBase.baseStyle = {}
+setmetatable(ContainerBase.baseStyle, {__index=WidgetBase.baseStyle})
 ContainerBase.type = "ContainerBase"
 
 function ContainerBase:new(...)
@@ -33,10 +34,29 @@ function ContainerBase:setParent(parent)
     end
 end
 
-
 function ContainerBase:draw()
     for i=1, #self.items do
         self.items[i]:draw()
+    end
+end
+
+function ContainerBase:handleMouse(x, y)
+    if not self:inside(x, y) then
+        return
+    end
+    WidgetBase.handleMouse(self, x, y)
+    for _, W in ipairs(self.items) do
+        W:handleMouse(x, y)
+    end
+end
+
+function ContainerBase:handleClick(x, y, button)
+    if not self:inside(x, y) then
+        return
+    end
+    WidgetBase.handleClick(self, x, y, button)
+    for _, W in ipairs(self.items) do
+        W:handleClick(x, y, button)
     end
 end
 

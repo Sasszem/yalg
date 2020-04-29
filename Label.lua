@@ -11,6 +11,8 @@ Label.baseStyle = {
     border = 0,
     margin = 0,
 }
+setmetatable(Label.baseStyle, {__index=WidgetBase.baseStyle})
+
 
 function Label:new(text, style)
     self.text = text

@@ -6,7 +6,7 @@ HDiv.type = "HDiv"
 HDiv.baseStyle = {
     placement = "fill",
 }
-
+setmetatable(HDiv.baseStyle, {__index=ContainerBase.baseStyle})
 
 function HDiv:getMinDimensions()
     local maxW = 0

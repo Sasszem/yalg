@@ -25,6 +25,11 @@ function GUI:getFont()
     return self.style.font or Font(30)
 end
 
+function GUI:update()
+    local x, y = love.mouse.getPosition()
+    self:handleMouse(x, y)
+end
+
 function GUI:resize(w, h)
     self.w = w
     self.h = h
