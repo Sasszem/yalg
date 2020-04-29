@@ -1,8 +1,6 @@
-local Font = {}
-
 local cache = {}
 
-function Font:new(size, file)
+function Font(size, file)
     local fileN = file or "DEFAULT"
     if cache[size] then
         if cache[size][fileN] then
@@ -16,8 +14,5 @@ function Font:new(size, file)
     cache[size][fileN] = f
     return f
 end
-
-Font.__call = Font.new
-setmetatable(Font, Font)
 
 return Font
