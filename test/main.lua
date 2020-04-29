@@ -19,9 +19,9 @@ g[1] = GUI(
     }
 )
 g[2] = GUI(
-    Button("New Game", {placement="fill"}),
-    Button("Highscores", {placement="fill"}),
-    Button("Quit", {placement="fill"}),
+    Button("New Game", {margin = 5}),
+    Button("Highscores", {margin = 5}),
+    Button("Quit", {margin = 5}),
     {
         font=Font(30),
         placement="center"
