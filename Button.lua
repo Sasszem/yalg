@@ -1,8 +1,10 @@
 require("utils")
 
-local Button = {
-    type="Button",
-}
+local WidgetBase = require("WidgetBase")
+local Button = WidgetBase:extend()
+Button.type = "Button"
+
+-- TODO: Make Button a subclass of Label
 
 Button.baseStyle = {
     border=3,
@@ -14,19 +16,10 @@ Button.baseStyle = {
 }
 
 function Button:new(text, style)
-    local o = {}
-    setmetatable(o, Button)
-    o.text = text
-    o.style = style or {}
-    setmetatable(o.style, {__index = o.baseStyle})
-    o.id = o.style.id or getId(o.type)
-    return o
-end
-
-
-function Button:setParent(parent)
-    self.parent = parent
-    self.parent:addWidgetLookup(self.id, self)
+    self.text = text
+    self.style = style or {}
+    setmetatable(self.style, {__index = self.baseStyle})
+    self.id = self.style.id or getId(self.type)
 end
 
 function Button:getMinDimensions()
@@ -57,10 +50,7 @@ function Button:getRawDimensions()
     return font:getWidth(self.text), font:getHeight()
 end
 
-function Button:getFont()
-    -- fonts are sprecial, and inherit from parent widgets to childer
-    return self.style.font or self.parent:getFont()
-end
+
 
 function Button:draw()
     -- draw background
@@ -78,7 +68,5 @@ function Button:draw()
     love.graphics.print(self.text, xt, yt)
 end
 
-Button.__index = Button
-setmetatable(Button, {__call = Button.new})
 
 return Button

@@ -1,40 +1,11 @@
-local HDiv = {
-    type="HDiv"
-}
+local ContainerBase = require("ContainerBase")
+
+local HDiv = ContainerBase:extend()
+HDiv.type = "HDiv"
 
 HDiv.baseStyle = {
     placement = "fill",
 }
-
-HDiv.__index = HDiv
-
-function HDiv:new(...)
-    local args = {...}
-    local o = {}
-    setmetatable(o, HDiv)
-    o.items = {}
-    o.style = {}
-    setmetatable(o.style, {__index = o.baseStyle})
-    local i = 1
-    for _, W in ipairs(args) do
-        if W.type then
-            o.items[i] = W
-            i = i + 1
-        else
-            o.style = W
-        end
-    end
-    o.id = o.style.id or getId(o.type)
-    return o
-end
-
-function HDiv:setParent(parent)
-    self.parent = parent
-    -- set parent for every child node
-    for _, W in ipairs(self.items) do
-        W:setParent(self)
-    end
-end
 
 
 function HDiv:getMinDimensions()
@@ -48,9 +19,6 @@ function HDiv:getMinDimensions()
     return maxW * #self.items, maxH
 end
 
-function HDiv:addWidgetLookup(key, widget)
-    self.parent:addWidgetLookup(key, widget)
-end
 
 function HDiv:calculateGeometry(x, y, w, h)
     if self.style.placement=="center" then
@@ -72,18 +40,4 @@ function HDiv:calculateGeometry(x, y, w, h)
     end
 end
 
-function HDiv:getFont()
-    -- fonts are sprecial, and inherit from parent widgets to childer
-    return self.style.font or self.parent:getFont()
-end
-
-function HDiv:draw()
-    -- divide horisontally & issue drawing
-    for i=1, #self.items do
-        self.items[i]:draw()
-    end
-end
-
-
-setmetatable(HDiv, {__call = HDiv.new})
 return HDiv

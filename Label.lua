@@ -1,6 +1,7 @@
-local Label = {
-    type="Label"
-}
+local WidgetBase = require("WidgetBase")
+
+local Label = WidgetBase:extend()
+Label.type = "Label"
 
 Label.baseStyle = {
     textColor = rgb(255, 255, 255),
@@ -9,18 +10,10 @@ Label.baseStyle = {
 }
 
 function Label:new(text, style)
-    local o = {}
-    setmetatable(o, Label)
-    o.text = text
-    o.style = style or {}
-    setmetatable(o.style, {__index = o.baseStyle})
-    o.id = o.style.id or getId(o.type)
-    return o
-end
-
-function Label:setParent(parent)
-    self.parent = parent
-    self.parent:addWidgetLookup(self.id, self)
+    self.text = text
+    self.style = style or {}
+    setmetatable(self.style, {__index = self.baseStyle})
+    self.id = self.style.id or getId(self.type)
 end
 
 
@@ -31,10 +24,6 @@ function Label:getMinDimensions()
     return w, h
 end
 
-function Label:getFont()
-    -- fonts are sprecial, and inherit from parent widgets to childer
-    return self.style.font or self.parent:getFont()
-end
 
 function Label:calculateGeometry(x, y, w, h)
     if self.style.placement=="center" then
@@ -63,7 +52,5 @@ function Label:draw()
     love.graphics.print(self.text, x, y)
 end
 
-Label.__index = Label
-setmetatable(Label, {__call = Label.new})
 
 return Label
