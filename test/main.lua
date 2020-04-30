@@ -8,17 +8,17 @@ g[1] = GUI(
         Button("Click me!", {
             font=Font(40),
             textColor=rgb(255, 0, 0), 
-            placement="center", 
             id="btnClickMe"
         })
     ),
     HDiv(
         Label("Another label"),
         Button("Do NOT click me!",{
-            textColor=rgb(0,0,255), 
-            border=9, 
-            borderColor=rgb(0,255,0), 
-            backgroundColor=rgb(50,50,50), 
+            placement="fill",
+            textColor=rgb(0,0,255),
+            border=9,
+            borderColor=rgb(0,255,0),
+            backgroundColor=rgb(50,50,50),
             mouseEnter = function(self, x, y)
                 if self.text~="F U" then
                     self.text = "DO NOT EVEN TRY!"
@@ -42,16 +42,26 @@ g[1] = GUI(
     }
 )
 g[2] = GUI(
-    Button("New Game", {margin = 5}),
-    Button("Highscores", {margin = 5}),
-    Button("Quit", {margin = 5}),
+    Button("New Game", {placement="fill"}),
+    Button("Highscores", {placement="fill"}),
+    Button("Quit", {placement="fill"}),
     {
         font=Font(30),
-        placement="center"
+        placement="center",
     }
 )
 
 g[3] = GUI(
+    Button("New Game", {padding=30}),
+    Button("Highscores", {padding=0}),
+    Button("Quit"),
+    {
+        font=Font(30),
+        backgroundColor = rgb(0, 255, 0),
+    }
+)
+
+g[4] = GUI(
     HDiv(
         Label("", {
             backgroundColor = rgb(255, 0, 0),
