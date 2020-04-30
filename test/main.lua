@@ -83,6 +83,25 @@ g[4] = GUI(
     )
 )
 
+g[5] = GUI(
+    HDiv(
+        Label("I'm just a Label!"),
+        Button("And I'm a Button"),
+        {
+            margin = 20,
+            border = 4,
+            borderColor = rgb(0, 255, 0),
+        }
+    ),
+    HDiv(
+        Label("Lonely label here...")
+    ),
+    {
+        border = 3,
+        borderColor = rgb(0,0,255)
+    }
+)
+
 function love.load()
     love.window.setMode( 800, 600, {resizable=true, minwidth=100, minheight=100})
 end
