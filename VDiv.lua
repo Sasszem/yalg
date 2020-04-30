@@ -21,18 +21,7 @@ function VDiv:getMinDimensions()
 end
 
 function VDiv:calculateGeometry(x, y, w, h)
-    if self.style.placement=="center" then
-        local wS, hS = self:getMinDimensions()
-        self.x = x + (w-wS)/2
-        self.y = y + (h-hS)/2
-        self.w = wS
-        self.h = hS
-    else
-        self.x = x
-        self.y = y
-        self.w = w
-        self.h = h
-    end
+    ContainerBase.calculateGeometry(self, x, y, w, h)
     local cellW = self.w
     local cellH = self.h / #self.items
     for i, W in ipairs(self.items) do

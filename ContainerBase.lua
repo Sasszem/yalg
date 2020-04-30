@@ -9,7 +9,6 @@ function ContainerBase:new(...)
     local args = {...}
     self.items = {}
     self.style = {}
-    setmetatable(self.style, {__index = self.baseStyle})
     local i = 1
     for _, W in ipairs(args) do
         if W.type then
@@ -19,6 +18,7 @@ function ContainerBase:new(...)
             self.style = W
         end
     end
+    setmetatable(self.style, {__index = self.baseStyle})
     self.id = self.style.id or getId(self.type)
 end
 
@@ -35,6 +35,7 @@ function ContainerBase:setParent(parent)
 end
 
 function ContainerBase:draw()
+    WidgetBase.draw(self)
     for i=1, #self.items do
         self.items[i]:draw()
     end

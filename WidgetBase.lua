@@ -7,7 +7,11 @@ WidgetBase.baseStyle = {
     click = function(self, button) end,
     margin = 0,
     border = 0,
+    backgroundColor = rgb(0,0,0,0),
+    borderColor=rgb(0, 0, 0, 0),
+    textColor = rgb(255, 255, 255),
     placement = "fill",
+    padding = 0,
 }
 
 function WidgetBase:new(style)
@@ -38,7 +42,7 @@ end
 
 function WidgetBase:getMinDimensions()
     local w, h = self:getRawDimensions()
-    local d = 2*self.style.border + 2*self.style.margin
+    local d = 2*self.style.border + 2*self.style.margin + 2*self.style.padding
     return w+d, h+d
 end
 
@@ -81,6 +85,18 @@ end
 function WidgetBase:getFont()
     -- fonts are sprecial, and inherit from parent widgets to childer
     return self.style.font or self.parent:getFont()
+end
+
+function WidgetBase:draw()
+    -- draw border
+    love.graphics.setColor(self.style.borderColor)
+    love.graphics.setLineWidth(self.style.border)
+    local b = self.style.border / 2
+    love.graphics.rectangle("line", self.x + b, self.y + b, self.w - 2*b, self.h - 2*b)
+
+    -- draw background
+    love.graphics.setColor(self.style.backgroundColor)
+    love.graphics.rectangle("fill", self.x+self.style.border, self.y+self.style.border, self.w-2*self.style.border, self.h-2*self.style.border)
 end
 
 return WidgetBase

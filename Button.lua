@@ -8,9 +8,9 @@ Button.baseStyle = {
     border=3,
     borderColor=rgb(255, 0, 0),
     backgroundColor=rgb(100, 100, 100),
-    textColor=rgb(255, 255, 255),
-    placement = "fill",
+    placement = "center",
     margin = 0,
+    padding = 5,
 }
 setmetatable(Button.baseStyle, {__index=Label.baseStyle})
 return Button
