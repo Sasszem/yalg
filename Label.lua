@@ -7,9 +7,6 @@ Label.baseStyle = {
     textColor = rgb(255, 255, 255),
     backgroundColor = rgb(0,0,0,0),
     borderColor=rgb(0, 0, 0, 0),
-    placement = "fill",
-    border = 0,
-    margin = 0,
 }
 setmetatable(Label.baseStyle, {__index=WidgetBase.baseStyle})
 
@@ -27,11 +24,7 @@ function Label:getRawDimensions()
     return w, h
 end
 
-function Label:getMinDimensions()
-    local w, h = self:getRawDimensions()
-    local d = 2*self.style.border + 2*self.style.margin
-    return w+d, h+d
-end
+
 
 
 function Label:draw()

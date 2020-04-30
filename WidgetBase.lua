@@ -5,6 +5,9 @@ WidgetBase.baseStyle = {
     mouseEnter = function(self, x, y) end,
     mouseLeave = function(self, x, y) end,
     click = function(self, button) end,
+    margin = 0,
+    border = 0,
+    placement = "fill",
 }
 
 function WidgetBase:new(style)
@@ -31,6 +34,12 @@ function WidgetBase:calculateGeometry(x, y, w, h)
         self.w = w
         self.h = h
     end
+end
+
+function WidgetBase:getMinDimensions()
+    local w, h = self:getRawDimensions()
+    local d = 2*self.style.border + 2*self.style.margin
+    return w+d, h+d
 end
 
 function WidgetBase:inside(x, y)
