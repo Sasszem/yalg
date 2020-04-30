@@ -48,16 +48,18 @@ g[2] = GUI(
     {
         font=Font(30),
         placement="center",
+        gap = 10,
     }
 )
 
 g[3] = GUI(
-    Button("New Game", {padding=30}),
-    Button("Highscores", {padding=0}),
-    Button("Quit"),
+    Button("New Game", {padding=30, placement="fill"}),
+    Button("Highscores", {padding=0, placement="fill"}),
+    Button("Quit", {placement="fill"}),
     {
         font=Font(30),
         backgroundColor = rgb(0, 255, 0),
+        gap=20,
     }
 )
 
