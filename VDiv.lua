@@ -17,15 +17,16 @@ function VDiv:getMinDimensions()
         maxW = math.max(maxW, w)
         maxH = math.max(maxH, h)
     end
-    return maxW, maxH * #self.items
+    return maxW, maxH * #self.items + self.style.gap * (#self.items - 1)
 end
 
 function VDiv:calculateGeometry(x, y, w, h)
     ContainerBase.calculateGeometry(self, x, y, w, h)
+    local gap = self.style.gap
+    local cellH = (self.h+gap) / #self.items - gap
     local cellW = self.w
-    local cellH = self.h / #self.items
     for i, W in ipairs(self.items) do
-        W:calculateGeometry(self.x, self.y+(i-1)*cellH, cellW, cellH)
+        W:calculateGeometry(self.x, self.y+(i-1)*(cellH+gap), cellW, cellH)
     end
 end
 

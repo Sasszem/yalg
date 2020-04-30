@@ -1,7 +1,9 @@
 local WidgetBase = require("WidgetBase")
 
 local ContainerBase = WidgetBase:extend()
-ContainerBase.baseStyle = {}
+ContainerBase.baseStyle = {
+    gap = 0,
+}
 setmetatable(ContainerBase.baseStyle, {__index=WidgetBase.baseStyle})
 ContainerBase.type = "ContainerBase"
 
