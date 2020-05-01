@@ -44,9 +44,6 @@ function ContainerBase:draw()
 end
 
 function ContainerBase:handleMouse(x, y)
-    if not self:inside(x, y) then
-        return
-    end
     WidgetBase.handleMouse(self, x, y)
     for _, W in ipairs(self.items) do
         W:handleMouse(x, y)
