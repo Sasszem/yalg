@@ -8,7 +8,7 @@ HDiv.baseStyle = {
 }
 setmetatable(HDiv.baseStyle, {__index=ContainerBase.baseStyle})
 
-function HDiv:getMinDimensions()
+function HDiv:getContentDimensions()
     local maxW = 0
     local maxH = 0
     for _, W in ipairs(self.items) do
@@ -23,10 +23,11 @@ end
 function HDiv:calculateGeometry(x, y, w, h)
     ContainerBase.calculateGeometry(self, x, y, w, h)
     local gap = self.style.gap
-    local cellW = (self.w+gap) / #self.items - gap
-    local cellH = self.h
+    local xB, yB, wB, hB = self:getContentBox()
+    local cellW = (wB+gap) / #self.items - gap
+    local cellH = hB
     for i, W in ipairs(self.items) do
-        W:calculateGeometry(self.x+(i-1)*(cellW + gap), self.y, cellW, cellH)
+        W:calculateGeometry(xB+(i-1)*(cellW + gap), yB, cellW, cellH)
     end
 end
 

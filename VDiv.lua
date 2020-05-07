@@ -9,7 +9,7 @@ VDiv.baseStyle = {
 }
 setmetatable(VDiv.baseStyle, {__index=ContainerBase.baseStyle})
 
-function VDiv:getMinDimensions()
+function VDiv:getContentDimensions()
     local maxW = 0
     local maxH = 0
     for _, W in ipairs(self.items) do
@@ -22,11 +22,12 @@ end
 
 function VDiv:calculateGeometry(x, y, w, h)
     ContainerBase.calculateGeometry(self, x, y, w, h)
+    local xB, yB, wB, hB = self:getContentBox()
     local gap = self.style.gap
-    local cellH = (self.h+gap) / #self.items - gap
-    local cellW = self.w
+    local cellH = (hB+gap) / #self.items - gap
+    local cellW = wB
     for i, W in ipairs(self.items) do
-        W:calculateGeometry(self.x, self.y+(i-1)*(cellH+gap), cellW, cellH)
+        W:calculateGeometry(xB, yB+(i-1)*(cellH+gap), cellW, cellH)
     end
 end
 

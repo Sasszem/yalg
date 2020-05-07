@@ -12,7 +12,7 @@ function Label:new(text, style)
     WidgetBase.new(self, style)
 end
 
-function Label:getRawDimensions()
+function Label:getContentDimensions()
     local font = self:getFont()
     local w = font:getWidth(self.text)
     local h = font:getHeight()
@@ -22,14 +22,14 @@ end
 function Label:draw()
     WidgetBase.draw(self)
     -- center text horizontally & vertically
-    local wB, hB = self:getRawDimensions()
-    local xt = self.x+(self.w-wB)/2
-    local yt = self.y+(self.h-hB)/2
+    local bX, bY, bW, bH = self:getContentBox()
+    local w, h = self:getContentDimensions()
+    local x, y = centerBox(bX, bY, bW, bH, w, h)
 
     -- draw text
     love.graphics.setFont(self:getFont())
     love.graphics.setColor(self.style.textColor)
-    love.graphics.print(self.text, xt, yt)
+    love.graphics.print(self.text, x, y)
 end
 
 

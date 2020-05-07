@@ -12,5 +12,6 @@ Button.baseStyle = {
     margin = 0,
     padding = 5,
 }
+
 setmetatable(Button.baseStyle, {__index=Label.baseStyle})
 return Button
