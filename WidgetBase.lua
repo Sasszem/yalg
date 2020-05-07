@@ -12,6 +12,8 @@ WidgetBase.baseStyle = {
     textColor = rgb(255, 255, 255),
     placement = "fill",
     padding = 0,
+    width = 0,
+    height = 0,
 }
 
 function WidgetBase:new(style)
@@ -45,6 +47,8 @@ end
 
 function WidgetBase:getMinDimensions()
     local w, h = self:getContentDimensions()
+    w = math.max(self.style.width, w)
+    h = math.max(self.style.height, h)
     local d = 2*self.style.border + 2*self.style.margin + 2*self.style.padding
     return w+d, h+d
 end

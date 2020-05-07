@@ -117,6 +117,12 @@ g[#g + 1] = GUI(
     )
 )
 
+g[#g + 1] = GUI(
+    HDiv(
+        Label("", {width=100, height=100, backgroundColor=rgb(255, 0, 0), placement="center"})
+    )
+)
+
 function love.load()
     love.window.setMode( 800, 600, {resizable=true, minwidth=100, minheight=100})
 end
