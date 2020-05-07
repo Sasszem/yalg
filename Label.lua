@@ -15,7 +15,9 @@ end
 function Label:getContentDimensions()
     local font = self:getFont()
     local w = font:getWidth(self.text)
-    local h = font:getHeight()
+    lines = 1
+    self.text:gsub("\n", function(...) lines = lines + 1 end)
+    local h = font:getHeight() * lines
     return w, h
 end
 

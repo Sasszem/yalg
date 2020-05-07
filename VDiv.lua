@@ -22,12 +22,15 @@ end
 
 function VDiv:calculateGeometry(x, y, w, h)
     ContainerBase.calculateGeometry(self, x, y, w, h)
+    local slots = self:getSlots()
     local xB, yB, wB, hB = self:getContentBox()
     local gap = self.style.gap
-    local cellH = (hB+gap) / #self.items - gap
+    local cellH = (hB+gap) / slots - gap
     local cellW = wB
-    for i, W in ipairs(self.items) do
-        W:calculateGeometry(xB, yB+(i-1)*(cellH+gap), cellW, cellH)
+    local i = 0
+    for _, W in ipairs(self.items) do
+        W:calculateGeometry(xB, yB+i*(cellH+gap), cellW, cellH*W.style.span)
+        i = i + W.style.span
     end
 end
 

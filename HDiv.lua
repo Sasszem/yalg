@@ -22,12 +22,15 @@ end
 
 function HDiv:calculateGeometry(x, y, w, h)
     ContainerBase.calculateGeometry(self, x, y, w, h)
+    local slots = self:getSlots()
     local gap = self.style.gap
     local xB, yB, wB, hB = self:getContentBox()
-    local cellW = (wB+gap) / #self.items - gap
+    local cellW = (wB+gap) / slots - gap
     local cellH = hB
-    for i, W in ipairs(self.items) do
-        W:calculateGeometry(xB+(i-1)*(cellW + gap), yB, cellW, cellH)
+    local i = 0
+    for _, W in ipairs(self.items) do
+        W:calculateGeometry(xB+i*(cellW + gap), yB, cellW*W.style.span, cellH)
+        i = i + W.style.span
     end
 end
 

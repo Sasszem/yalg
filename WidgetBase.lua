@@ -14,6 +14,7 @@ WidgetBase.baseStyle = {
     padding = 0,
     width = 0,
     height = 0,
+    span = 1,
 }
 
 function WidgetBase:new(style)

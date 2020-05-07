@@ -60,5 +60,12 @@ function ContainerBase:handleClick(x, y, button)
     end
 end
 
+function ContainerBase:getSlots()
+    local slots = 0
+    for _, W in ipairs(self.items) do
+        slots = slots + W.style.span
+    end
+    return slots
+end
 
 return ContainerBase
