@@ -29,7 +29,7 @@ function ContainerBase:addWidgetLookup(key, widget)
 end
 
 function ContainerBase:setParent(parent)
-    self.parent = parent
+    WidgetBase.setParent(self, parent)
     -- set parent for every child node
     for _, W in ipairs(self.items) do
         W:setParent(self)
