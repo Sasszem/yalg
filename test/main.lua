@@ -104,6 +104,19 @@ g[5] = GUI(
     }
 )
 
+g[#g + 1] = GUI(
+    HDiv(
+        Button("Left button", {placement="fill", margin=1}),
+        Button("Right button", {placement="center"}),
+        {
+            placement="center",
+            border=5,
+            backgroundColor = rgb(255, 255, 255),
+            borderColor=rgb(0,0,255),
+        }
+    )
+)
+
 function love.load()
     love.window.setMode( 800, 600, {resizable=true, minwidth=100, minheight=100})
 end
@@ -112,7 +125,10 @@ local sel = 1
 
 local t = 0
 
-function love.draw() 
+function love.draw()
+    --love.graphics.translate(400, 300)
+    --love.graphics.scale(10, 10)
+    --love.graphics.translate(-400, -300)
     g[sel]:draw()
 end
 
