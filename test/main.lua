@@ -18,20 +18,7 @@ g[1] = GUI(
             border=9,
             borderColor=rgb(0,255,0),
             backgroundColor=rgb(50,50,50),
-            mouseEnter = function(self, x, y)
-                if self.text~="F U" then
-                    self.text = "DO NOT EVEN TRY!"
-                end
-            end,
-            mouseLeave = function (self, x, y)
-                if self.text~="F U" then
-                    self.text = "Do NOT click me!"
-                end
-            end,
-            click = function (self, x, y)
-                self.text = "F U"
-            end
-        }),
+        }, "noClickMe"),
         {
             font=Font(40),
         }
@@ -40,6 +27,26 @@ g[1] = GUI(
         font=Font(20),
     }
 )
+
+local a = g[1]
+-- use this because we do that GUI switching
+
+function a.widgets.noClickMe.style:click(x, y, button)
+    self.text = "F U"
+end
+
+function a.widgets.noClickMe.style:mouseLeave(x, y)
+    if self.text~="F U" then
+        self.text = "Do NOT click me!"
+    end
+end
+
+function a.widgets.noClickMe.style:mouseEnter(x, y)
+    if self.text~="F U" then
+        self.text = "DO NOT EVEN TRY!"
+    end
+end
+
 g[2] = GUI(
     Button("New Game", {placement="fill"}),
     Button("Highscores", {placement="fill"}),
