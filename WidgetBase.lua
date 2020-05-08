@@ -17,14 +17,14 @@ WidgetBase.baseStyle = {
     span = 1,
 }
 
-function WidgetBase:new(style)
+function WidgetBase:new(style, id)
     style = style or {}
     self.style = {}
     for k, v in pairs(style) do
         self.style[k] = v
     end
     setmetatable(self.style, {__index = self.baseStyle})
-    self.id = self.style.id or getId(self.type)
+    self.id = id or getId(self.type)
     self.mouseOver = false
 end
 

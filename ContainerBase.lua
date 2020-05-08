@@ -12,16 +12,21 @@ function ContainerBase:new(...)
     local args = {...}
     self.items = {}
     local style = {}
+    local id = nil
     local i = 1
     for _, W in ipairs(args) do
-        if W.type then
-            self.items[i] = W
-            i = i + 1
+        if type(W)=="string" then
+            id = W
         else
-            style = W
+            if W.type then
+                self.items[i] = W
+                i = i + 1
+            else
+                style = W
+            end
         end
     end
-    WidgetBase.new(self, style)
+    WidgetBase.new(self, style, id)
 end
 
 function ContainerBase:addWidgetLookup(key, widget)

@@ -7,9 +7,9 @@ Label.baseStyle = {
 }
 setmetatable(Label.baseStyle, {__index=WidgetBase.baseStyle})
 
-function Label:new(text, style)
+function Label:new(text, style, id)
     self.text = text
-    WidgetBase.new(self, style)
+    WidgetBase.new(self, style, id)
 end
 
 function Label:getContentDimensions()

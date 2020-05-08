@@ -8,8 +8,7 @@ g[1] = GUI(
         Button("Click me!", {
             font=Font(40),
             textColor=rgb(255, 0, 0), 
-            id="btnClickMe"
-        })
+        }, "btnClickMe")
     ),
     HDiv(
         Label("Another label"),
@@ -121,6 +120,10 @@ g[#g + 1] = GUI(
     HDiv(
         Label("", {width=100, height=100, backgroundColor=rgb(255, 0, 0), placement="center"})
     )
+)
+
+g[#g + 1] = GUI(
+    Label("A multiline\nlabel is this", {border=3, borderColor=rgb(255,255,255), placement="center"})
 )
 
 function love.load()
