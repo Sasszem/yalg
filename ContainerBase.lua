@@ -3,6 +3,7 @@ local WidgetBase = require("WidgetBase")
 local ContainerBase = WidgetBase:extend()
 ContainerBase.baseStyle = {
     gap = 0,
+    slots = 0,
 }
 setmetatable(ContainerBase.baseStyle, {__index=WidgetBase.baseStyle})
 ContainerBase.type = "ContainerBase"
@@ -64,7 +65,7 @@ function ContainerBase:getSlots()
     for _, W in ipairs(self.items) do
         slots = slots + W.style.span
     end
-    return slots
+    return math.max(slots, self.style.slots)
 end
 
 return ContainerBase
