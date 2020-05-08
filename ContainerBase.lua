@@ -10,18 +10,17 @@ ContainerBase.type = "ContainerBase"
 function ContainerBase:new(...)
     local args = {...}
     self.items = {}
-    self.style = {}
+    local style = {}
     local i = 1
     for _, W in ipairs(args) do
         if W.type then
             self.items[i] = W
             i = i + 1
         else
-            self.style = W
+            style = W
         end
     end
-    setmetatable(self.style, {__index = self.baseStyle})
-    self.id = self.style.id or getId(self.type)
+    WidgetBase.new(self, style)
 end
 
 function ContainerBase:addWidgetLookup(key, widget)
