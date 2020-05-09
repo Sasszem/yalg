@@ -1,9 +1,10 @@
 # YALG
 Yet another Löve2D GUI framework
 
-My goal is to make a simple way to build GUI interfaces with Löve2D
+My goal is to make a simple way to build GUI interfaces with Löve2D.
+My goal is **NOT** to build a fancy or extensive GUI lib, just a quick way of building simple menus with a few buttons. Of course, it can be "abused" to do more (just look at the config example!).
 
-Project goals:
+### Project goals:
 - Simple
 - Flexible
 - Not TOO resource heavy
@@ -11,32 +12,13 @@ Project goals:
 - "Reactive" GUI - no manual placement of the widgets should be required
 - Easy to extend
 
-**CURRENTLY I AM IN THE DRAFTING PHASE, SO APIs, OR EVEN FEATURES CAN CHANGE!
-YOU CAN NOT EVEN TAKE THIS DOCUMENT AS GRANTED!**
+### Project status
+I consider this "finished", I do not plan any more features in this project. I am still open for issue reports & maybe even to some ideas.
 
-Check out the [tutorial](TUTORIAL.MD) for a better document!
+## Documentation
+Check out the [tutorial](TUTORIAL.MD) for a quickstart!
 
-
-## Widget internal API
-- draw(x, y, w, h) - draw the element in a box.
-Handles placement as well
-- setParent(parent) - set the widgets parent
-- calculateGeometry()
-- getMinimumDimensions()
-- getContentDimensions()
-- w, h
-- style
-
-### Widget life cycle
-- Created via their constructor from bottom-up (elements first, then parent containers)
-- Called setParent() from top-down (source is GUI)
-- called calculateStyle() from top-down
-- called getMinDimensions() from top-down
-Returns minimum dimensions, containers calculate them before return
-- called calculateGeometry(x, y, w, h) by parent
-Sets own values
-
-- called draw() repedately
+Check out the [internal api documentation](DOCS.md) for implementation details.
 
 ### Known gotchas
 - spaces in the beginning or end of lines count to the size required

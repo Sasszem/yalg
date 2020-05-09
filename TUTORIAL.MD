@@ -1,7 +1,7 @@
 # Getting started guide
 
 ### Installing
-The intended way of installing yalg is in a separate folder in your main project folder. You might use a git submodule to keep your copy up-to-date.
+The intended way of installing yalg is in a separate folder in your main project folder. You might use a git submodule to keep your copy up-to-date, in case I'll ever update it.
 
 ### Importing
 
