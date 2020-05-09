@@ -11,6 +11,7 @@ My goal is **NOT** to build a fancy or extensive GUI lib, just a quick way of bu
 - Finish project quick (I tend to abandon my projects, so before I got bored on this...)
 - "Reactive" GUI - no manual placement of the widgets should be required
 - Easy to extend
+- pure LÖVE2D - no external dependencies, portable even to android
 
 ### Project status
 I consider this "finished", I do not plan any more features in this project. I am still open for issue reports & maybe even to some ideas.
