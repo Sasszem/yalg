@@ -120,4 +120,8 @@ function WidgetBase:draw()
     love.graphics.rectangle("line", self.x + b, self.y + b, self.w - 2*b, self.h - 2*b)
 end
 
+function WidgetBase:getWidget(id)
+    return self.parent:getWidget(id)
+end
+
 return WidgetBase
