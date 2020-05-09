@@ -1,5 +1,4 @@
 local VDiv = require("VDiv")
-local Font = require("Font")
 local GUI = VDiv:extend()
 
 function GUI:new(...)
