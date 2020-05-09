@@ -2,6 +2,7 @@
 
 ### Installing
 The intended way of installing yalg is in a separate folder in your main project folder. You might use a git submodule to keep your copy up-to-date, in case I'll ever update it.
+You can also grab the all-in-one file from the [releases page](https://github.com/Sasszem/yalg/releases), and place it anywhere in your project.
 
 ### Importing
 
@@ -178,6 +179,11 @@ function g.widgets.label.style:click(x, y, button)
     self.text = "Hidden feature"
 end
 ```
+
+### Further reading
+- [test example](test/main.lua)
+- [config-example's entry - a compbound widget implementation](config-example/entry.lua)
+- [config-example](config-example/main.lua)
 
 #### List of all style attributes
 
