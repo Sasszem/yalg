@@ -1,0 +1,24 @@
+
+
+Done:
+ - mouse leaving window or container
+ - container margin & border in calculateGeometry
+ - Container gaps
+ - Implement padding
+ - Background crops part of border
+ - rename getRawDimensions to getContentDimensions
+ - refactor with rect center function
+ - add getContenBox to WidgetBase
+ - center & margin problem
+ - Implement style width & height
+ - multiline label
+ - division of elements inside containers - added span
+ - copy style tabel
+ - Switcher element
+ - Slots to containers
+ - refactor IDs
+ - Examples
+
+Wontdo:
+- spaces in labels - trailing & starting spaces should be removed
+- Text input

@@ -1,0 +1,10 @@
+{
+    "Lua.diagnostics.globals": [
+        "love",
+        "unpack",
+        "mergeTables",
+        "getId",
+        "rgb",
+        "centerBox"
+    ],
+}
