@@ -4,6 +4,8 @@ Yet another Löve2D GUI framework
 My goal is to make a simple way to build GUI interfaces with Löve2D.
 My goal is **NOT** to build a fancy or extensive GUI lib, just a quick way of building simple menus with a few buttons. Of course, it can be "abused" to do more (just look at the config example!).
 
+Look at the [screenshots](screenshots) folder for some example looks!
+
 ### Project goals:
 - Simple
 - Flexible
