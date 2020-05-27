@@ -1,27 +1,17 @@
 local VDiv = require("VDiv")
-local GUI = VDiv:extend()
+GUI = VDiv:extend()
+GUI.type = "GUI"
 
 function GUI:new(...)
     VDiv.new(self, ...)
-    self.id = "GUI"
-    self.widgets = {}
     local w, h = love.graphics.getDimensions()
     self.w = w
     self.h = h
-    self:setParent(self)
     self:calculateGeometry(0, 0, w, h)
 end
 
 function GUI:recalculate()
     self:calculateGeometry(0, 0, self.w, self.h)
-end
-
-function GUI:addWidgetLookup(key, widget)
-    self.widgets[key] = widget
-end
-
-function GUI:getWidget(id)
-    return self.widgets[id]
 end
 
 function GUI:getFont()

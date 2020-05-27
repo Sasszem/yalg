@@ -11,6 +11,7 @@ ContainerBase.type = "ContainerBase"
 function ContainerBase:new(...)
     local args = {...}
     self.items = {}
+    self.widgets = {}
     local style = {}
     local id = nil
     local i = 1
@@ -27,18 +28,30 @@ function ContainerBase:new(...)
         end
     end
     WidgetBase.new(self, style, id)
-end
-
-function ContainerBase:addWidgetLookup(key, widget)
-    self.parent:addWidgetLookup(key, widget)
-end
-
-function ContainerBase:setParent(parent)
-    WidgetBase.setParent(self, parent)
-    -- set parent for every child node
     for _, W in ipairs(self.items) do
         W:setParent(self)
     end
+    self:addWidgetLookup(self.id, self)
+end
+
+function ContainerBase:addWidgetLookup(key, widget)
+    assert(not self.widgets[key], "ID duplication in container \""..self.id.."\": "..key)
+    self.widgets[key] = widget
+end
+
+function ContainerBase:getWidget(id)
+    if self.widgets then
+        return assert(self.widgets[id], "Widget ID not found in "..self.id..": "..id)
+    end
+    return self.parent:getWidget(id)
+end
+
+function ContainerBase:setParent(parent)
+    self.parent = parent
+    for k, v in pairs(self.widgets) do
+        parent:addWidgetLookup(k, v)
+    end
+    self.widgets = nil
 end
 
 function ContainerBase:draw()

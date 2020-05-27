@@ -8,15 +8,13 @@ setmetatable(Switcher.baseStyle, {__index=ContainerBase.baseStyle})
 Switcher.type = "Switcher"
 
 function Switcher:new(...)
-    ContainerBase.new(self, ...)
-    self.widgets = {}
+    self.switcherWidgets = {}
     self.selected = nil
-end
-
-function Switcher:addWidgetLookup(key, widget)
-    self.widgets[key] = widget
-    self.selected = self.selected or key
-    ContainerBase.addWidgetLookup(self, key, widget)
+    ContainerBase.new(self, ...)
+    for _, W in ipairs(self.items) do
+        self.switcherWidgets[W.id] = W
+        self.selected = W.id
+    end
 end
 
 function Switcher:getContentDimensions()
@@ -41,12 +39,12 @@ end
 
 function Switcher:draw()
     WidgetBase.draw(self)
-    self.widgets[self.selected]:draw()
+    self.switcherWidgets[self.selected]:draw()
 end
 
 function Switcher:handleMouse(x, y)
     WidgetBase.handleMouse(self, x, y)
-    self.widgets[self.selected]:handleMouse(x, y)
+    self.switcherWidgets[self.selected]:handleMouse(x, y)
 end
 
 function Switcher:handleClick(x, y, button)
@@ -54,7 +52,7 @@ function Switcher:handleClick(x, y, button)
         return
     end
     WidgetBase.handleClick(self, x, y, button)
-    self.widgets[self.selected]:handleClick(x, y, button)
+    self.switcherWidgets[self.selected]:handleClick(x, y, button)
 end
 
 return Switcher
