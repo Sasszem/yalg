@@ -18,14 +18,20 @@ end
 
 local cache = {}
 
-function Font(size, file)
-    local fileN = file or "DEFAULT"
+function Font(size, file, hinting)
+    hinting = hinting or "normal"
+    local fileN = (file or "DEFAULT")..hinting
     if cache[size] then
         if cache[size][fileN] then
             return cache[size][fileN]
         end
     end
-    local f = love.graphics.newFont(size, file)
+    local f
+    if file then
+        f = love.graphics.newFont(file, size, hinting)
+    else
+        f = love.graphics.newFont(size, hinting)
+    end
     if not cache[size] then
         cache[size] = {}
     end
