@@ -106,14 +106,20 @@ end
 
 local cache = {}
 
-function Font(size, file)
-    local fileN = file or "DEFAULT"
+function Font(size, file, hinting)
+    hinting = hinting or "normal"
+    local fileN = (file or "DEFAULT")..hinting
     if cache[size] then
         if cache[size][fileN] then
             return cache[size][fileN]
         end
     end
-    local f = love.graphics.newFont(size, file)
+    local f
+    if file then
+        f = love.graphics.newFont(file, size, hinting)
+    else
+        f = love.graphics.newFont(size, hinting)
+    end
     if not cache[size] then
         cache[size] = {}
     end
@@ -272,6 +278,7 @@ ContainerBase.type = "ContainerBase"
 function ContainerBase:new(...)
     local args = {...}
     self.items = {}
+    self.widgets = {}
     local style = {}
     local id = nil
     local i = 1
@@ -288,18 +295,30 @@ function ContainerBase:new(...)
         end
     end
     WidgetBase.new(self, style, id)
-end
-
-function ContainerBase:addWidgetLookup(key, widget)
-    self.parent:addWidgetLookup(key, widget)
-end
-
-function ContainerBase:setParent(parent)
-    WidgetBase.setParent(self, parent)
-    -- set parent for every child node
     for _, W in ipairs(self.items) do
         W:setParent(self)
     end
+    self:addWidgetLookup(self.id, self)
+end
+
+function ContainerBase:addWidgetLookup(key, widget)
+    assert(not self.widgets[key], "ID duplication in container \""..self.id.."\": "..key)
+    self.widgets[key] = widget
+end
+
+function ContainerBase:getWidget(id)
+    if self.widgets then
+        return assert(self.widgets[id], "Widget ID not found in "..self.id..": "..id)
+    end
+    return self.parent:getWidget(id)
+end
+
+function ContainerBase:setParent(parent)
+    self.parent = parent
+    for k, v in pairs(self.widgets) do
+        parent:addWidgetLookup(k, v)
+    end
+    self.widgets = nil
 end
 
 function ContainerBase:draw()
@@ -435,15 +454,13 @@ setmetatable(Switcher.baseStyle, {__index=ContainerBase.baseStyle})
 Switcher.type = "Switcher"
 
 function Switcher:new(...)
-    ContainerBase.new(self, ...)
-    self.widgets = {}
+    self.switcherWidgets = {}
     self.selected = nil
-end
-
-function Switcher:addWidgetLookup(key, widget)
-    self.widgets[key] = widget
-    self.selected = self.selected or key
-    ContainerBase.addWidgetLookup(self, key, widget)
+    ContainerBase.new(self, ...)
+    for _, W in ipairs(self.items) do
+        self.switcherWidgets[W.id] = W
+        self.selected = W.id
+    end
 end
 
 function Switcher:getContentDimensions()
@@ -468,12 +485,12 @@ end
 
 function Switcher:draw()
     WidgetBase.draw(self)
-    self.widgets[self.selected]:draw()
+    self.switcherWidgets[self.selected]:draw()
 end
 
 function Switcher:handleMouse(x, y)
     WidgetBase.handleMouse(self, x, y)
-    self.widgets[self.selected]:handleMouse(x, y)
+    self.switcherWidgets[self.selected]:handleMouse(x, y)
 end
 
 function Switcher:handleClick(x, y, button)
@@ -481,7 +498,7 @@ function Switcher:handleClick(x, y, button)
         return
     end
     WidgetBase.handleClick(self, x, y, button)
-    self.widgets[self.selected]:handleClick(x, y, button)
+    self.switcherWidgets[self.selected]:handleClick(x, y, button)
 end
 
 
@@ -493,28 +510,18 @@ end
 
 
 GUI = VDiv:extend()
+GUI.type = "GUI"
 
 function GUI:new(...)
     VDiv.new(self, ...)
-    self.id = "GUI"
-    self.widgets = {}
     local w, h = love.graphics.getDimensions()
     self.w = w
     self.h = h
-    self:setParent(self)
     self:calculateGeometry(0, 0, w, h)
 end
 
 function GUI:recalculate()
     self:calculateGeometry(0, 0, self.w, self.h)
-end
-
-function GUI:addWidgetLookup(key, widget)
-    self.widgets[key] = widget
-end
-
-function GUI:getWidget(id)
-    return self.widgets[id]
 end
 
 function GUI:getFont()
