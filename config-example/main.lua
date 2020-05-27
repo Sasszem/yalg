@@ -49,7 +49,7 @@ local function setGraphicsMode(self, val, text)
     love.window.setMode(l[m][1], l[m][2], {resizable=true, minwidth=100, minheight=100})
     print("Resolution: "..tostring(l[m][1]).."x"..tostring(l[m][2]))
     love.window.setFullscreen(f==2)
-    self:getWidget("GUI"):resize(l[m][1], l[m][2])
+    self:getWidget("GUI#1"):resize(l[m][1], l[m][2])
 end
 
 local VideoSettings = VDiv(
