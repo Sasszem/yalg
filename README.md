@@ -4,6 +4,24 @@ Yet another Löve2D GUI framework
 My goal was to make a simple way to build GUI interfaces with Löve2D.
 My goal was **NOT** to build a fancy or extensive GUI lib, just a quick way of building simple menus with a few buttons. Of course, it can be "abused" to do more (just look at the config example!).
 
+## About the framework
+
+### Where it shines
+- cross-platform - no external libs, just plain old Löve2D + Lua
+- simple - just a few basic widgets, no need to search a very long documentation
+- reactive - no manual placing of elements, the framework handles it
+- hackable - just look at the config-example or the games I used it in
+- retro look - simple looks with edges and corners
+
+It's perfect for gluing in a play game / highscores / exit menu at the last minute.
+
+### Where it fails
+- simple - it does not even have a textbox, you have to hack that together
+- reactive - placing the elements where you want them can be hard
+- retro look - it might not fit your game's theme
+
+You might want to try something else if you want the best-looking UI with complex features.
+
 Look at the [screenshots](screenshots) folder for some example looks!
 
 ### Project goals:
