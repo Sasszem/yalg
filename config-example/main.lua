@@ -1,4 +1,4 @@
-require("yalg")
+require("yalg").import()
 require("entry")
 local g = {}
 
