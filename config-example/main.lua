@@ -1,6 +1,5 @@
 require("yalg").import()
 require("entry")
-local g = {}
 
 local buttonToSwitcherMap = {
     Video = "videoSettings",
@@ -12,7 +11,7 @@ local buttonToSwitcherMap = {
 
 local chooserButtonStyle = {
     placement="fill",
-    mouseEnter = function(self, x, y) 
+    mouseEnter = function(self, x, y)
         self.style.borderColor = rgb(0,255,00)
     end,
     mouseLeave = function (self, x, y)
@@ -34,12 +33,6 @@ local rowStyle = {
     border = 3,
     borderColor = rgb(255,255,255),
     placement = "fill"
-}
-
-local plusButtonStyle = {
-    backgroundColor = rgb(0,255,0),
-    border = 0,
-    placement = "fill",
 }
 
 local function setGraphicsMode(self, val, text)
@@ -162,10 +155,6 @@ g = GUI(
 function love.load()
     love.window.setMode( 800, 600, {resizable=true, minwidth=100, minheight=100})
 end
-
-local sel = 1
-
-local t = 0
 
 function love.draw()
     --love.graphics.translate(400, 300)

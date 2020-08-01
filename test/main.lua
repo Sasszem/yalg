@@ -169,7 +169,7 @@ function love.update(dt)
     g[1].widgets.btnClickMe.text = "Time: "..tostring(math.floor(t))
     if math.floor(t)%2 == 0 then
         g[1].widgets.btnClickMe.style.borderColor = Y.rgb(255, 0, 0)
-    else 
+    else
         g[1].widgets.btnClickMe.style.borderColor = Y.rgb(0, 255, 0)
     end
     g[1]:recalculate()
