@@ -1,4 +1,5 @@
 local WidgetBase = require("WidgetBase")
+local U = require("utils")
 
 local Label = WidgetBase:extend()
 Label.type = "Label"
@@ -26,7 +27,7 @@ function Label:draw()
     -- center text horizontally & vertically
     local bX, bY, bW, bH = self:getContentBox()
     local w, h = self:getContentDimensions()
-    local x, y = centerBox(bX, bY, bW, bH, w, h)
+    local x, y = U.centerBox(bX, bY, bW, bH, w, h)
 
     -- draw text
     love.graphics.setFont(self:getFont())

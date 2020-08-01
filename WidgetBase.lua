@@ -1,4 +1,5 @@
 local Object = require("Classic")
+local utils = require("utils")
 
 local WidgetBase = Object:extend()
 WidgetBase.baseStyle = {
@@ -7,9 +8,9 @@ WidgetBase.baseStyle = {
     click = function(self, button) end,
     margin = 0,
     border = 0,
-    backgroundColor = rgb(0,0,0,0),
-    borderColor=rgb(0, 0, 0, 0),
-    textColor = rgb(255, 255, 255),
+    backgroundColor = utils.rgb(0,0,0,0),
+    borderColor=utils.rgb(0, 0, 0, 0),
+    textColor = utils.rgb(255, 255, 255),
     placement = "fill",
     padding = 0,
     width = 0,
@@ -24,7 +25,7 @@ function WidgetBase:new(style, id)
         self.style[k] = v
     end
     setmetatable(self.style, {__index = self.baseStyle})
-    self.id = id or getId(self.type)
+    self.id = id or utils.getId(self.type)
     self.mouseOver = false
 end
 

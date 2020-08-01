@@ -1,5 +1,7 @@
 local VDiv = require("VDiv")
-GUI = VDiv:extend()
+local U = require("utils")
+
+local GUI = VDiv:extend()
 GUI.type = "GUI"
 
 function GUI:new(...)
@@ -16,7 +18,7 @@ end
 
 function GUI:getFont()
     -- fonts are sprecial, and inherit from parent widgets to childer
-    return self.style.font or Font(30)
+    return self.style.font or U.Font(30)
 end
 
 function GUI:update()
