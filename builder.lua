@@ -3,7 +3,7 @@
 -------------
 
 --[[
-This is a custom build script that combines all the files here 
+This is a custom build script that combines all the files here
 into a single lua file, for easier distribution.
 It looks for two keywords: return and require
 
@@ -14,9 +14,9 @@ Identifies the name of the symbol returned
 
 REQUIRE
 It looks for require statements. It builds a dependency graph from those.
-The graph should be a DAG, so it can be topologically sorted 
+The graph should be a DAG, so it can be topologically sorted
 and thus composed into a single file.
-Note: LUA already freaks out to circular import, 
+Note: LUA already freaks out to circular import,
 so it is kinda guaranteed to be a DAG since the code runs.
 
 
@@ -31,7 +31,7 @@ If both checks succeed, it can easily remove requires and returns and splice the
 local lfs = require"lfs"
 
 
-function findReturn(file)
+local function findReturn(file)
     local ret = nil
     for l in io.lines(file) do
         local exp = l:match("return (%w+)$")
@@ -42,7 +42,7 @@ function findReturn(file)
     return ret
 end
 
-function findImports(file)
+local function findImports(file)
     local imports = {}
     for l in io.lines(file) do
         if l:match("require") then
@@ -60,7 +60,7 @@ function findImports(file)
     return imports
 end
 
-function topsort(G)
+local function topsort(G)
     local Gc = {}
     local found = {}
     while next(G)~=nil do
@@ -85,7 +85,7 @@ end
 
 -- write the file except last return and imports
 -- add alias if necessery
-function build(file, aliases, returns)
+local function build(file, aliases, returns)
     local name = file[1]
     local f = ""
     f = f .. "-- *** BUILDER: SECTION START ***\n"
@@ -125,7 +125,6 @@ for file in lfs.dir"." do
 
 	if file~="." and file~=".." and file~="builder.lua" and file ~= "bundle.lua" then
 		if file:match("%.lua$") then
-		    local name = file:match("^(%w+)%.lua$")
             local exp = findReturn(file)
             returns[file] = exp
             G[file] = findImports(file)
