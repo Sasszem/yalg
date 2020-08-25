@@ -78,11 +78,11 @@ function WidgetBase:handleMouse(x, y)
     local inside = self:inside(x, y)
     if inside and not self.mouseOver then
         self.mouseOver = true
-        if self.style.mouseEnter then
+        if self.style.mouseEnter and not utils.mobile then
             self.style.mouseEnter(self, x, y)
         end
     end
-    if not inside and self.mouseOver then
+    if not inside and self.mouseOver and not utils.mobile then
         self.mouseOver = false
         if self.style.mouseLeave then
             self.style.mouseLeave(self, x, y)
@@ -95,7 +95,13 @@ function WidgetBase:handleClick(x, y, button)
         return
     end
     if self.style.click then
+        if utils.mobile then
+            self.style.mouseEnter(self, x, y)
+        end
         self.style.click(self, x, y, button)
+        if utils.mobile then
+            self.style.mouseLeave(self, x, y)
+        end
     end
 end
 
